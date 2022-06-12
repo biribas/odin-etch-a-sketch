@@ -1,0 +1,27 @@
+body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex {
+  display: flex;
+}
+
+#canvas {
+  width: 700px;
+  height: 700px;
+  border: 5px solid black;
+  flex-direction: column;
+}
+
+.row {
+  flex: 1;
+}
+
+.square {
+  flex: 1;
+  border: 1px solid black;
+}
