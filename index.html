@@ -3,11 +3,84 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./style.css">
     <script src="./script.js" defer></script>
+    <script src="https://unpkg.com/phosphor-icons" defer></script>
     <title>Etch A Sketch</title>
   </head>
-  <body>
-    <div class="flex" id="canvas">
-      
+  <body class="flex">
+    <h1>Etch A Sketch</h1>
+
+    <div class="flex" id="content">
+      <section>
+        <div class="flex" id="menu">
+          <label class="tooltip" id="brush">
+            <i class="ph-paint-brush fill"></i>
+            <input type="color">
+            <span class="tooltiptext">Brush color</span>
+          </label>
+
+          <label class="tooltip" id="background">
+            <i class="ph-selection-background fill"></i>
+            <input type="color">
+            <span class="tooltiptext">Background color</span>
+          </label>
+
+          <label class="tooltip" id="rainbow">
+            <i class="ph-rainbow"></i>
+            <input type="color">
+            <span class="tooltiptext">Rainbow mode</span>
+          </label>
+
+          <label class="tooltip" id="half-circle">
+            <i class="ph-circle-half-fill"></i>
+            <input type="color">
+            <span class="tooltiptext">Shadding mode</span>
+          </label>
+
+          <label class="tooltip" id="bucket">
+            <i class="ph-paint-bucket-fill fill"></i>
+            <input type="color">
+            <span class="tooltiptext">Paint bucket</span>
+          </label>
+
+          <label class="tooltip" id="eyedropper">
+            <i class="ph-eyedropper-fill fill"></i>
+            <input type="color">
+            <span class="tooltiptext">Eyedropper</span>
+          </label>
+
+          <label class="tooltip" id="eraser">
+            <i class="ph-eraser-fill"></i>
+            <input type="color">
+            <span class="tooltiptext">Eraser</span>
+          </label>
+
+          <label class="tooltip" id="grid">
+            <i class="ph-grid-four"></i>
+            <input type="color">
+            <span class="tooltiptext">Show grid</span>
+          </label>
+          
+          <label class="tooltip" id="x">
+            <i class="ph-x"></i>
+            <input type="color">
+            <span class="tooltiptext">Clear</span>
+          </label>
+        </div>
+  
+        <input type="range" min="2" max="100" step="1" value="36">
+  
+        <div class="flex" id="canvas-header">
+          <output id="size">36 x 36</output>
+          <i class="ph-arrow-counter-clockwise" id="undo"></i>
+          <i class="ph-arrow-clockwise" id="redo"></i>
+        </div>
+        
+        <div class="flex" id="canvas"></div>
+      </section>
     </div>
+
+    <footer>
+      A project made by <a href="https://github.com/biribas">biribas</a> for <a href="https://www.theodinproject.com/">The Odin Project</a>
+    </footer>
   </body>
 </html>
