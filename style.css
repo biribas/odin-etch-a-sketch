@@ -51,6 +51,9 @@ h1 {
 
 .button {
   transition: transform 0.1s ease;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 2.4rem
 }
 
 .button:hover {
@@ -62,12 +65,7 @@ h1 {
   transform: scale(1);
 }
 
-#menu i {
-  color: black;
-  font-size: 2.4rem;
-}
-
-#menu i.fill{
+.button .fill {
   filter:
     drop-shadow(0.5px 0 0 black)
     drop-shadow(-0.5px 0 0 black)
@@ -113,6 +111,10 @@ input[type="range"] {
   height: 32rem;
   border: 0.25rem solid black;
   flex-direction: column;
+}
+
+#canvas:hover {
+  cursor: url('./cursors/Paint\ Brush.cur'), default;
 }
 
 .row {
