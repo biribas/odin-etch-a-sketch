@@ -73,7 +73,7 @@ label:hover {
 
 input[type="range"] {
   margin: 0.5rem 0;
-  background-color: grey
+  background-color: grey;
 }
 
 #canvas-header {
