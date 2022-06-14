@@ -3,15 +3,15 @@ const range = document.querySelector('input[type="range"]');
 const size = document.getElementById('size');
 
 const menu = document.querySelectorAll('.button');
-const brush = menu[0];
-const background = menu[1];
-const rainbow = menu[2];
-const shadding = menu[3];
-const bucket = menu[4];
-const eyedropper = menu[5];
-const eraser = menu[6];
-const grid = menu[7];
-const clear = menu[8];
+const brushButton = menu[0];
+const backgroundButton = menu[1];
+const rainbowButton = menu[2];
+const shaddingButton = menu[3];
+const bucketButton = menu[4];
+const eyedropperButton = menu[5];
+const eraserButton = menu[6];
+const gridButton = menu[7];
+const clearButton = menu[8];
 
 function createSquares() {
   const n = +range.value;
@@ -30,13 +30,13 @@ function changeSizeInfo() {
 }
 
 function showGrid() {
-  if (grid.classList.contains('selected')) {
+  if (gridButton.classList.contains('selected')) {
     grid.classList.remove('selected');    
     document.querySelectorAll('.square').forEach(e => e.classList.remove('grid'));
     return;
   }
   
-  grid.classList.add('selected');
+  gridButton.classList.add('selected');
   document.querySelectorAll('.square').forEach(e => e.classList.add('grid'));
 }
 
@@ -49,7 +49,7 @@ function main() {
   start();
   range.addEventListener('input', changeSizeInfo)
   range.addEventListener('change', createSquares);
-  grid.addEventListener('click', showGrid)
+  gridButton.addEventListener('click', showGrid);
 }
 
 document.addEventListener('DOMContentLoaded', main);
