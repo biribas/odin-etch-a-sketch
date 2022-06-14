@@ -45,7 +45,7 @@ h1 {
 .selected {
   transform: scale(1.2);
   background-color: #dedede;
-  border: 3px solid black;
+  outline: 2px solid black;
   border-radius: 5px;
 }
 
@@ -59,7 +59,7 @@ h1 {
 }
 
 .button:active {
-  transform: scale(0.9);
+  transform: scale(1);
 }
 
 #menu i {
@@ -192,11 +192,11 @@ input[type="color"] {
   border-color: transparent transparent black transparent;
 }
 
-.tooltip:hover .tooltiptext {
+.button:hover ~ .tooltiptext {
   visibility: visible;
   opacity: 1;
 }
 
-.tooltip:active .tooltiptext {
+.button:active ~ .tooltiptext {
   visibility: hidden;
 }
