@@ -49,6 +49,10 @@ h1 {
   border-radius: 5px;
 }
 
+label {
+  transition: transform 0.2s ease;
+}
+
 label:hover {
   cursor: pointer;
   transform: scale(1.1);
@@ -73,6 +77,7 @@ input[type="range"] {
 }
 
 #canvas-header {
+  box-sizing: border-box;
   background-color: black;
   color: snow;
   align-items: center;
@@ -99,6 +104,7 @@ input[type="range"] {
 }
 
 #canvas {
+  box-sizing: border-box;
   background-color: white;
   height: 32rem;
   border: 0.25rem solid black;
