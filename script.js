@@ -30,8 +30,6 @@ function changeSizeInfo() {
 }
 
 function showGrid() {
-  
-
   if (grid.classList.contains('selected')) {
     grid.classList.remove('selected');    
     document.querySelectorAll('.square').forEach(e => e.classList.remove('grid'));
