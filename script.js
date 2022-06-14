@@ -3,7 +3,8 @@ const range = document.querySelector('input[type="range"]');
 const size = document.getElementById('size');
 
 const menu = document.querySelectorAll('.button');
-const brushButton = menu[0];
+const brushImage = menu[0];
+const brushButton = document.querySelector('#brush > input');
 const backgroundButton = menu[1];
 const rainbowButton = menu[2];
 const shaddingButton = menu[3];
@@ -29,6 +30,11 @@ function changeSizeInfo() {
   size.innerHTML = `${range.value} x ${range.value}`;
 }
 
+function brush() {
+  brushImage.style.color = this.value;
+  brushImage.classList.add('selected');
+}
+
 function showGrid() {
   if (gridButton.classList.contains('selected')) {
     gridButton.classList.remove('selected');    
@@ -47,8 +53,9 @@ function start() {
 
 function main() {
   start();
-  range.addEventListener('input', changeSizeInfo)
+  range.addEventListener('input', changeSizeInfo);
   range.addEventListener('change', createSquares);
+  brushButton.addEventListener('change', brush);
   gridButton.addEventListener('click', showGrid);
 }
 
