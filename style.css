@@ -49,13 +49,17 @@ h1 {
   border-radius: 5px;
 }
 
-label {
-  transition: transform 0.2s ease;
+.button {
+  transition: transform 0.1s ease;
 }
 
-label:hover {
+.button:hover {
   cursor: pointer;
   transform: scale(1.1);
+}
+
+.button:active {
+  transform: scale(0.9);
 }
 
 #menu i {
@@ -117,7 +121,11 @@ input[type="range"] {
 
 .square {
   flex: 1;
-  border: 1px solid black;
+}
+
+.grid {
+  border-top: 1px solid black;
+  border-left: 1px solid black;
 }
 
 footer {
@@ -187,4 +195,8 @@ input[type="color"] {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+.tooltip:active .tooltiptext {
+  visibility: hidden;
 }
