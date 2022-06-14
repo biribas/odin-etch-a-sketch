@@ -15,7 +15,7 @@ const clearButton = menu[8];
 
 function createSquares() {
   const n = +range.value;
-  const gridIsSelected = grid.classList.contains('selected');
+  const gridIsSelected = gridButton.classList.contains('selected');
 
   canvas.innerHTML = '';
   for (let i = 0; i < n; i++) {
@@ -31,7 +31,7 @@ function changeSizeInfo() {
 
 function showGrid() {
   if (gridButton.classList.contains('selected')) {
-    grid.classList.remove('selected');    
+    gridButton.classList.remove('selected');    
     document.querySelectorAll('.square').forEach(e => e.classList.remove('grid'));
     return;
   }
