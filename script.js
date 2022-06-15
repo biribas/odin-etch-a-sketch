@@ -4,12 +4,12 @@ const size = document.getElementById('size');
 
 const menu = document.querySelectorAll('.button');
 const brushButton = menu[0];
-const backgroundButton = menu[1];
-const rainbowButton = menu[2];
-const shaddingButton = menu[3];
-const bucketButton = menu[4];
-const eyedropperButton = menu[5];
-const eraserButton = menu[6];
+const bucketButton = menu[1];
+const eraserButton = menu[2];
+const eyedropperButton = menu[3];
+const shaddingButton = menu[4];
+const rainbowButton = menu[5];
+const backgroundButton = menu[6];
 const gridButton = menu[7];
 const clearButton = menu[8];
 
