@@ -80,8 +80,7 @@ function addCanvasEventListener(index) {
 }
 
 function brush(target) {
-  if (target.id !== 'canvas')
-    target.style.backgroundColor = info.currentColor;
+  target.style.backgroundColor = info.currentColor;
 }
 
 function bucket(target) {
