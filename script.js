@@ -3,6 +3,8 @@ const range = document.querySelector('input[type="range"]');
 const size = document.getElementById('size');
 
 const menu = document.querySelectorAll('.button');
+const actionButtons = [...menu].slice(0, 6);
+
 const brushButton = menu[0];
 const bucketButton = menu[1];
 const eraserButton = menu[2];
@@ -32,8 +34,13 @@ function createSquares() {
   }
 }
 
-function brush() {  
-  brushButton.classList.add('selected');
+function removeSelectedButton() {
+  document.querySelector('.selected').classList.remove('selected');
+  this.classList.add('selected');
+}
+
+function brush() {
+  actionButtons.forEach(button => button.classList.remove('selected'));
 }
 
 function showGrid() {
@@ -61,7 +68,7 @@ function main() {
   start();
   range.addEventListener('input', changeSizeInfo);
   range.addEventListener('change', createSquares);
-  brushButton.addEventListener('click', brush);
+  actionButtons.forEach(button => button.addEventListener('click', removeSelectedButton));
   gridButton.addEventListener('click', showGrid);
   colorButton.addEventListener('change', changeColor);
 }
