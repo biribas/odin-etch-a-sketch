@@ -23,7 +23,8 @@ const colorButton = document.querySelector('#color > input');
 
 const info = {
   mousedown: false,
-  currentColor: 'black'
+  currentColor: 'black',
+  squares: []
 }
 
 function changeSizeInfo() {
@@ -39,6 +40,19 @@ function createSquares() {
     canvas.innerHTML += '<div class="flex row"></div>';
     for (let j = 0; j < n; j++)
       canvas.lastElementChild.innerHTML += '<div class="square' + (gridIsSelected ? ' grid' : '') + '"></div>';
+  }
+
+  saveSquaresCoordinates();
+}
+
+function saveSquaresCoordinates() {
+  info.squares = [];
+  const rows = document.querySelectorAll('.row');
+
+  for (let i = 0; i < rows.length; i++) {
+    info.squares.push([]);
+    const squares = rows[i].querySelectorAll('.square')
+    squares.forEach((square) => info.squares[i].push(square));
   }
 }
 
@@ -70,8 +84,8 @@ function brush(target) {
     target.style.backgroundColor = info.currentColor;
 }
 
-function bucket() {
-
+function bucket(target) {
+  
 }
 
 function eraser() {
