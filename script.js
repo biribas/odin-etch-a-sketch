@@ -1,22 +1,30 @@
-const canvas = document.getElementById('canvas');
+let canvas = document.getElementById('canvas');
 const range = document.querySelector('input[type="range"]');
 const size = document.getElementById('size');
 
 const menu = document.querySelectorAll('.button');
-const actionButtons = [...menu].slice(0, 6);
 
-const brushButton = menu[0];
-const bucketButton = menu[1];
-const eraserButton = menu[2];
-const eyedropperButton = menu[3];
-const shaddingButton = menu[4];
-const rainbowButton = menu[5];
+const actionButtons = [...menu].slice(0, 6);
+const actionFunctions = [
+  brush,
+  bucket,
+  eraser,
+  eyedropper,
+  shadding,
+  rainbow
+];
+
 const backgroundButton = menu[6];
 const gridButton = menu[7];
 const clearButton = menu[8];
-
 const colorImage = menu[9];
 const colorButton = document.querySelector('#color > input');
+
+
+const info = {
+  mousedown: false,
+  currentColor: 'black'
+}
 
 function changeSizeInfo() {
   size.innerHTML = `${range.value} x ${range.value}`;
@@ -34,13 +42,51 @@ function createSquares() {
   }
 }
 
-function removeSelectedButton() {
+function addCanvasEventListener(index) {
   document.querySelector('.selected').classList.remove('selected');
-  this.classList.add('selected');
+  
+  const button = actionButtons[index];
+  const actionFunction = actionFunctions[index];
+
+  button.classList.add('selected');
+  const id = button.parentNode.id;
+
+  canvas.replaceWith(canvas.cloneNode(true));
+  canvas = document.getElementById('canvas');
+
+  if (id === 'bucket')
+    return canvas.addEventListener('mousedown', e => actionFunction(e.target));
+
+  if (id === 'eyedropper')
+    return canvas.addEventListener('click', e => actionFunction(e.target));
+
+  canvas.addEventListener('mousedown', e => (info.mousedown = true, actionFunction(e.target)));
+  canvas.addEventListener('mouseover', e => info.mousedown ? actionFunction(e.target) : 1);
+  canvas.addEventListener('mouseup', () => info.mousedown = false);
 }
 
-function brush() {
-  actionButtons.forEach(button => button.classList.remove('selected'));
+function brush(target) {
+  
+}
+
+function bucket() {
+
+}
+
+function eraser() {
+
+}
+
+function eyedropper() {
+
+}
+
+function shadding() {
+
+}
+
+function rainbow() {
+
 }
 
 function showGrid() {
@@ -56,19 +102,21 @@ function showGrid() {
 
 function changeColor() {
   colorImage.style.color = colorButton.value;
+  info.currentColor = colorButton.value;
 }
 
 function start() {
   changeSizeInfo();
   createSquares();
   changeColor();
+  addCanvasEventListener(actionButtons.indexOf(document.querySelector('.selected')));
 }
 
 function main() {
   start();
   range.addEventListener('input', changeSizeInfo);
   range.addEventListener('change', createSquares);
-  actionButtons.forEach(button => button.addEventListener('click', removeSelectedButton));
+  actionButtons.forEach((button, index) => button.addEventListener('click', () => addCanvasEventListener(index)));
   gridButton.addEventListener('click', showGrid);
   colorButton.addEventListener('change', changeColor);
 }
