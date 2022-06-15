@@ -13,6 +13,13 @@ const eraserButton = menu[6];
 const gridButton = menu[7];
 const clearButton = menu[8];
 
+const colorImage = menu[9];
+const colorButton = document.querySelector('#color > input');
+
+function changeSizeInfo() {
+  size.innerHTML = `${range.value} x ${range.value}`;
+}
+
 function createSquares() {
   const n = +range.value;
   const gridIsSelected = gridButton.classList.contains('selected');
@@ -23,10 +30,6 @@ function createSquares() {
     for (let j = 0; j < n; j++)
       canvas.lastElementChild.innerHTML += '<div class="square' + (gridIsSelected ? ' grid' : '') + '"></div>';
   }
-}
-
-function changeSizeInfo() {
-  size.innerHTML = `${range.value} x ${range.value}`;
 }
 
 function brush() {  
@@ -44,9 +47,14 @@ function showGrid() {
   document.querySelectorAll('.square').forEach(e => e.classList.add('grid'));
 }
 
+function changeColor() {
+  colorImage.style.color = colorButton.value;
+}
+
 function start() {
   changeSizeInfo();
   createSquares();
+  changeColor();
 }
 
 function main() {
@@ -55,6 +63,7 @@ function main() {
   range.addEventListener('change', createSquares);
   brushButton.addEventListener('click', brush);
   gridButton.addEventListener('click', showGrid);
+  colorButton.addEventListener('change', changeColor);
 }
 
 document.addEventListener('DOMContentLoaded', main);
