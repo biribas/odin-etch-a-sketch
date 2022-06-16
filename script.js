@@ -14,16 +14,17 @@ const actionFunctions = [
   rainbow
 ];
 
-const backgroundButton = menu[6];
+const backgroundIcon = menu[6];
+const backgroundButton = document.querySelector('#background > input');
 const gridButton = menu[7];
 const clearButton = menu[8];
-const colorImage = menu[9];
+const colorIcon = menu[9];
 const colorButton = document.querySelector('#color > input');
-
 
 const info = {
   mousedown: false,
   currentColor: 'black',
+  currentBackgroundColor: 'white',
   currentSize: 0
 }
 
@@ -73,6 +74,7 @@ function addCanvasEventListener(index) {
 
 function brush(target) {
   target.style.backgroundColor = info.currentColor;
+  target.classList.add('scratched');
 }
 
 function bucket(i, j, oldColor) {
@@ -85,7 +87,8 @@ function bucket(i, j, oldColor) {
     return;
 
   square.style.backgroundColor = info.currentColor;
-  
+  square.classList.add('scratched');
+
   bucket(i - 1, j, oldColor);
   bucket(i + 1, j, oldColor);
   bucket(i, j - 1, oldColor);
@@ -120,14 +123,24 @@ function showGrid() {
 }
 
 function changeColor() {
-  colorImage.style.color = colorButton.value;
-  info.currentColor = colorButton.value;
+  colorIcon.style.color = this.value;
+  info.currentColor = this.value;
+}
+
+function changeBackgroundColor() {
+  info.currentBackgroundColor = backgroundButton.value;
+  backgroundIcon.style.color = this.value;
+  for (let i = 0; i < info.currentSize; i++) 
+    for (let j = 0; j < info.currentSize; j++) {
+      const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
+      if (!square.classList.contains('scratched'))
+        square.style.backgroundColor = info.currentBackgroundColor;
+    }
 }
 
 function start() {
   changeSizeInfo();
   createSquares();
-  changeColor();
   addCanvasEventListener(actionButtons.indexOf(document.querySelector('.selected')));
 }
 
@@ -138,6 +151,7 @@ function main() {
   actionButtons.forEach((button, index) => button.addEventListener('click', () => addCanvasEventListener(index)));
   gridButton.addEventListener('click', showGrid);
   colorButton.addEventListener('change', changeColor);
+  backgroundButton.addEventListener('change', changeBackgroundColor);
 }
 
 document.addEventListener('DOMContentLoaded', main);

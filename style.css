@@ -65,7 +65,15 @@ h1 {
   transform: scale(1);
 }
 
+#background .button {
+  color: white;
+}
+
 #color .button {
+  color: black;
+}
+
+#background .button, #color .button {
   filter:
     drop-shadow(0.5px 0 0 black)
     drop-shadow(-0.5px 0 0 black)
