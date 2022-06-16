@@ -14,9 +14,10 @@ const actionFunctions = [
   rainbow
 ];
 
-const gridButton = menu[6];
-const clearButton = menu[7];
-const colorImage = menu[8];
+const backgroundButton = menu[6];
+const gridButton = menu[7];
+const clearButton = menu[8];
+const colorImage = menu[9];
 const colorButton = document.querySelector('#color > input');
 
 
@@ -78,7 +79,7 @@ function bucket(i, j, oldColor) {
   if (+i < 0 || +i >= info.currentSize || +j < 0 || +j >= info.currentSize) 
     return;
 
-  const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
+    const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
     
   if (square.style.backgroundColor !== oldColor)
     return;
