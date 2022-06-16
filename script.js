@@ -14,10 +14,9 @@ const actionFunctions = [
   rainbow
 ];
 
-const backgroundButton = menu[6];
-const gridButton = menu[7];
-const clearButton = menu[8];
-const colorImage = menu[9];
+const gridButton = menu[6];
+const clearButton = menu[7];
+const colorImage = menu[8];
 const colorButton = document.querySelector('#color > input');
 
 
