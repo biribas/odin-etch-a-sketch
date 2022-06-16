@@ -24,7 +24,7 @@ const colorButton = document.querySelector('#color > input');
 const info = {
   mousedown: false,
   currentColor: 'black',
-  squares: []
+  currentSize: 0
 }
 
 function changeSizeInfo() {
@@ -39,21 +39,10 @@ function createSquares() {
   for (let i = 0; i < n; i++) {
     canvas.innerHTML += '<div class="flex row"></div>';
     for (let j = 0; j < n; j++)
-      canvas.lastElementChild.innerHTML += '<div class="square' + (gridIsSelected ? ' grid' : '') + '"></div>';
+      canvas.lastElementChild.innerHTML += '<div class="square' + (gridIsSelected ? ' grid' : '') + `" data-coordinate="${i};${j}"></div>`;
   }
 
-  saveSquaresCoordinates();
-}
-
-function saveSquaresCoordinates() {
-  info.squares = [];
-  const rows = document.querySelectorAll('.row');
-
-  for (let i = 0; i < rows.length; i++) {
-    info.squares.push([]);
-    const squares = rows[i].querySelectorAll('.square')
-    squares.forEach((square) => info.squares[i].push(square));
-  }
+  info.currentSize = n;
 }
 
 function addCanvasEventListener(index) {
@@ -69,7 +58,10 @@ function addCanvasEventListener(index) {
   canvas = document.getElementById('canvas');
 
   if (id === 'bucket')
-    return canvas.addEventListener('mousedown', e => actionFunction(e.target));
+    return canvas.addEventListener('mousedown', e => {
+      const coordinate = e.target.dataset.coordinate.split(';');
+      return actionFunction(coordinate[0], coordinate[1], e.target.style.backgroundColor);
+    });
 
   if (id === 'eyedropper')
     return canvas.addEventListener('click', e => actionFunction(e.target));
@@ -83,8 +75,21 @@ function brush(target) {
   target.style.backgroundColor = info.currentColor;
 }
 
-function bucket(target) {
-  
+function bucket(i, j, oldColor) {
+  if (+i < 0 || +i >= info.currentSize || +j < 0 || +j >= info.currentSize) 
+    return;
+
+  const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
+    
+  if (square.style.backgroundColor !== oldColor)
+    return;
+    
+  square.style.backgroundColor = info.currentColor;
+
+  bucket(+i - 1, +j, oldColor);
+  bucket(+i + 1, +j, oldColor);
+  bucket(+i, +j - 1, oldColor);
+  bucket(+i, +j + 1, oldColor);
 }
 
 function eraser() {
