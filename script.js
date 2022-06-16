@@ -100,8 +100,9 @@ function eraser(target) {
   target.classList.remove('scratched');
 }
 
-function eyedropper() {
-
+function eyedropper(target) {
+  info.currentColor = getComputedStyle(target).getPropertyValue('background-color');
+  colorIcon.style.color = info.currentColor;
 }
 
 function shadding() {

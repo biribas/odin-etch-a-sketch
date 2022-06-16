@@ -117,7 +117,6 @@ input[type="range"] {
 
 #canvas {
   box-sizing: border-box;
-  background-color: white;
   height: 32rem;
   outline: 0.25rem solid black;
   flex-direction: column;
@@ -133,6 +132,7 @@ input[type="range"] {
 
 .square {
   flex: 1;
+  background-color: white;
 }
 
 .grid {
