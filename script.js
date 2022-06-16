@@ -128,7 +128,7 @@ function changeColor() {
 }
 
 function changeBackgroundColor() {
-  info.currentBackgroundColor = backgroundButton.value;
+  info.currentBackgroundColor = this.value;
   backgroundIcon.style.color = this.value;
   for (let i = 0; i < info.currentSize; i++) 
     for (let j = 0; j < info.currentSize; j++) {
