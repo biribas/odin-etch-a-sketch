@@ -95,8 +95,9 @@ function bucket(i, j, oldColor) {
   bucket(i, j + 1, oldColor);
 }
 
-function eraser() {
-
+function eraser(target) {
+  target.style.backgroundColor = info.currentBackgroundColor;
+  target.classList.remove('scratched');
 }
 
 function eyedropper() {
