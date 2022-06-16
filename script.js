@@ -60,7 +60,7 @@ function addCanvasEventListener(index) {
   if (id === 'bucket')
     return canvas.addEventListener('mousedown', e => {
       const coordinate = e.target.dataset.coordinate.split(';');
-      return actionFunction(coordinate[0], coordinate[1], e.target.style.backgroundColor);
+      return actionFunction(+coordinate[0], +coordinate[1], e.target.style.backgroundColor);
     });
 
   if (id === 'eyedropper')
@@ -76,20 +76,20 @@ function brush(target) {
 }
 
 function bucket(i, j, oldColor) {
-  if (+i < 0 || +i >= info.currentSize || +j < 0 || +j >= info.currentSize) 
+  if (i < 0 || i >= info.currentSize || j < 0 || j >= info.currentSize) 
     return;
 
   const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
-    
+
   if (square.style.backgroundColor !== oldColor)
     return;
-    
-  square.style.backgroundColor = info.currentColor;
 
-  bucket(+i - 1, +j, oldColor);
-  bucket(+i + 1, +j, oldColor);
-  bucket(+i, +j - 1, oldColor);
-  bucket(+i, +j + 1, oldColor);
+  square.style.backgroundColor = info.currentColor;
+  
+  bucket(i - 1, j, oldColor);
+  bucket(i + 1, j, oldColor);
+  bucket(i, j - 1, oldColor);
+  bucket(i, j + 1, oldColor);
 }
 
 function eraser() {
