@@ -79,7 +79,7 @@ function bucket(i, j, oldColor) {
   if (+i < 0 || +i >= info.currentSize || +j < 0 || +j >= info.currentSize) 
     return;
 
-    const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
+  const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
     
   if (square.style.backgroundColor !== oldColor)
     return;
