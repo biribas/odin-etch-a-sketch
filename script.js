@@ -4,28 +4,39 @@ const size = document.getElementById('size');
 
 const menu = document.querySelectorAll('.button');
 
-const actionButtons = [...menu].slice(0, 6);
+const actionButtons = [...menu].slice(0, 7);
 const actionFunctions = [
   brush,
   bucket,
   eraser,
   eyedropper,
-  shadding,
+  shading,
+  shading,
   rainbow
 ];
 
-const backgroundIcon = menu[6];
+const backgroundIcon = menu[7];
 const backgroundButton = document.querySelector('#background > input');
-const gridButton = menu[7];
-const clearButton = menu[8];
-const colorIcon = menu[9];
+const gridButton = menu[8];
+const clearButton = menu[9];
+const colorIcon = menu[10];
 const colorButton = document.querySelector('#color > input');
 
 const info = {
   mousedown: false,
-  currentColor: 'black',
-  currentBackgroundColor: 'white',
+  currentColor: '#000000',
+  currentBackgroundColor: '#ffffff',
   currentSize: 0
+}
+
+const toRGBArray = rgbString => rgbString.match(/\d+/g).map(Number);
+const hexToRGB = hex => {
+  const hexArray = hex.match(/[a-f\d]{2}/g);
+  return [
+    parseInt(hexArray[0], 16),
+    parseInt(hexArray[1], 16),
+    parseInt(hexArray[2], 16)
+  ];
 }
 
 function changeSizeInfo() {
@@ -33,6 +44,7 @@ function changeSizeInfo() {
 }
 
 function createSquares() {
+  const start = Date.now();
   const n = +range.value;
   const gridIsSelected = gridButton.classList.contains('selected');
 
@@ -42,7 +54,7 @@ function createSquares() {
     for (let j = 0; j < n; j++)
       canvas.lastElementChild.innerHTML += '<div class="square' + (gridIsSelected ? ' grid' : '') + `" data-coordinate="${i};${j}"></div>`;
   }
-
+  console.log(Date.now() - start);
   info.currentSize = n;
 }
 
@@ -97,6 +109,7 @@ function bucket(i, j, oldColor) {
 
 function eraser(target) {
   target.style.backgroundColor = info.currentBackgroundColor;
+  target.dataset.shading = 0;
   target.classList.remove('scratched');
 }
 
@@ -105,8 +118,23 @@ function eyedropper(target) {
   colorIcon.style.color = info.currentColor;
 }
 
-function shadding() {
+function shading(target) {
+  const sign = target.parentNode.id === 'shading' ? -1 : 1;
+  console.log(sign);
+  
+  const rgbString = getComputedStyle(target).getPropertyValue('background-color');
+  if (rgbString === 'rgb(0, 0, 0)')
+    return;
 
+  if (target.hasAttribute('data-shading'))
+    target.dataset.shading = +target.dataset.shading + sign;
+  else
+    target.dataset.shading = sign;
+  
+  const rgbArray = toRGBArray(rgbString);
+  const newRGBAray = rgbArray.map(e => (e + 15 * sign) < 0 ? 0 : e + 15 * sign);
+
+  target.style.backgroundColor = `rgb(${newRGBAray[0]}, ${newRGBAray[1]}, ${newRGBAray[2]})`;
 }
 
 function rainbow() {
@@ -135,7 +163,15 @@ function changeBackgroundColor() {
   for (let i = 0; i < info.currentSize; i++) 
     for (let j = 0; j < info.currentSize; j++) {
       const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
-      if (!square.classList.contains('scratched'))
+      const isScratched = square.classList.contains('scratched');
+      const isShaded = square.hasAttribute('data-shading') && square.dataset.shading !== '0';
+      if (!isScratched && isShaded) {
+        const shadeLevel = +square.dataset.shading * 15;
+        const rgbArray = hexToRGB(info.currentBackgroundColor).map(e => (e + shadeLevel) < 0 ? 0 : e + shadeLevel);
+        console.log(info.currentBackgroundColor)
+        square.style.backgroundColor = `rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`;
+      }
+      else if (!isScratched)
         square.style.backgroundColor = info.currentBackgroundColor;
     }
 }
