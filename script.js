@@ -39,25 +39,6 @@ const hexToRGBArray = hex => {
   ];
 }
 
-function changeSizeInfo() {
-  size.innerHTML = `${range.value} x ${range.value}`;
-}
-
-function createSquares() {
-  const start = Date.now();
-  const n = +range.value;
-  const gridIsSelected = gridButton.classList.contains('selected');
-
-  canvas.innerHTML = '';
-  for (let i = 0; i < n; i++) {
-    canvas.innerHTML += '<div class="flex row"></div>';
-    for (let j = 0; j < n; j++)
-      canvas.lastElementChild.innerHTML += '<div class="square' + (gridIsSelected ? ' grid' : '') + `" data-coordinate="${i};${j}"></div>`;
-  }
-  console.log(Date.now() - start);
-  info.currentSize = n;
-}
-
 function addCanvasEventListener(index) {
   document.querySelector('.selected').classList.remove('selected');
   
@@ -203,8 +184,24 @@ function changeColor() {
   info.currentColor = this.value;
 }
 
+function changeSizeInfo() {
+  size.innerHTML = `${range.value} x ${range.value}`;
+}
+
+function createSquares() {
+  const n = +range.value;
+  info.currentSize = n;
+  const gridIsSelected = gridButton.classList.contains('selected');
+  
+  canvas.innerHTML = '';
+  for (let i = 0; i < n; i++) {
+    canvas.innerHTML += '<div class="flex row"></div>';
+    for (let j = 0; j < n; j++)
+      canvas.lastElementChild.innerHTML += '<div class="square' + (gridIsSelected ? ' grid' : '') + `" data-coordinate="${i};${j}"></div>`;
+  }
+}
+
 function start() {
-  changeSizeInfo();
   createSquares();
   addCanvasEventListener(actionButtons.indexOf(document.querySelector('.selected')));
 }
