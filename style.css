@@ -104,6 +104,16 @@ input[type="range"] {
 
 #undo, #redo {
   font-size: 2rem;
+  transition: transform 0.1s ease;
+}
+
+#undo:hover, #redo:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+#undo:active, #redo:active {
+  transform: scale(1);
 }
 
 #undo {
