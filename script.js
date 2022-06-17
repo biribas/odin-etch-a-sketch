@@ -11,7 +11,7 @@ const actionFunctions = [
   eraser,
   eyedropper,
   shading,
-  shading,
+  lighting,
   rainbow
 ];
 
@@ -30,7 +30,7 @@ const info = {
 }
 
 const toRGBArray = rgbString => rgbString.match(/\d+/g).map(Number);
-const hexToRGB = hex => {
+const hexToRGBArray = hex => {
   const hexArray = hex.match(/[a-f\d]{2}/g);
   return [
     parseInt(hexArray[0], 16),
@@ -109,7 +109,7 @@ function bucket(i, j, oldColor) {
 
 function eraser(target) {
   target.style.backgroundColor = info.currentBackgroundColor;
-  target.dataset.shading = 0;
+  target.dataset.brightness = 0;
   target.classList.remove('scratched');
 }
 
@@ -119,17 +119,24 @@ function eyedropper(target) {
 }
 
 function shading(target) {
-  const sign = target.parentNode.id === 'shading' ? -1 : 1;
-  console.log(sign);
-  
+  changeBrightness(target, -1);
+}
+
+function lighting(target) {
+  changeBrightness(target, 1);
+}
+
+function changeBrightness(target, sign) {
   const rgbString = getComputedStyle(target).getPropertyValue('background-color');
-  if (rgbString === 'rgb(0, 0, 0)')
+  const bound = sign === 1 ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
+
+  if (rgbString === bound)
     return;
 
-  if (target.hasAttribute('data-shading'))
-    target.dataset.shading = +target.dataset.shading + sign;
+  if (!target.hasAttribute('data-brightness'))
+    target.dataset.brightness = sign;
   else
-    target.dataset.shading = sign;
+    target.dataset.brightness = +target.dataset.brightness + sign;
   
   const rgbArray = toRGBArray(rgbString);
   const newRGBAray = rgbArray.map(e => (e + 15 * sign) < 0 ? 0 : e + 15 * sign);
@@ -160,20 +167,22 @@ function changeColor() {
 function changeBackgroundColor() {
   info.currentBackgroundColor = this.value;
   backgroundIcon.style.color = this.value;
-  for (let i = 0; i < info.currentSize; i++) 
+
+  for (let i = 0; i < info.currentSize; i++) {
     for (let j = 0; j < info.currentSize; j++) {
       const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
       const isScratched = square.classList.contains('scratched');
-      const isShaded = square.hasAttribute('data-shading') && square.dataset.shading !== '0';
-      if (!isScratched && isShaded) {
-        const shadeLevel = +square.dataset.shading * 15;
-        const rgbArray = hexToRGB(info.currentBackgroundColor).map(e => (e + shadeLevel) < 0 ? 0 : e + shadeLevel);
-        console.log(info.currentBackgroundColor)
+      const isShadedOrLightened = square.hasAttribute('data-brightness') && square.dataset.brightness !== '0';
+
+      if (!isScratched && isShadedOrLightened) {
+        const brightnessLevel = +square.dataset.brightness * 15;
+        const rgbArray = hexToRGBArray(info.currentBackgroundColor).map(e => (e + brightnessLevel) < 0 ? 0 : e + brightnessLevel);
         square.style.backgroundColor = `rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`;
       }
       else if (!isScratched)
         square.style.backgroundColor = info.currentBackgroundColor;
     }
+  }
 }
 
 function start() {
