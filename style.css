@@ -123,7 +123,7 @@ input[type="range"] {
 }
 
 #canvas:hover {
-  cursor: url('./cursors/Paint\ Brush.cur'), default;
+  cursor: url('./cursors/brush.cur'), default;
 }
 
 .row {
