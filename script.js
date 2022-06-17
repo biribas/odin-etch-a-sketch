@@ -153,22 +153,6 @@ function rainbow(target) {
   target.classList.add('scratched');
 }
 
-function showGrid() {
-  if (gridButton.classList.contains('selected')) {
-    gridButton.classList.remove('selected');    
-    document.querySelectorAll('.square').forEach(e => e.classList.remove('grid'));
-    return;
-  }
-  
-  gridButton.classList.add('selected');
-  document.querySelectorAll('.square').forEach(e => e.classList.add('grid'));
-}
-
-function changeColor() {
-  colorIcon.style.color = this.value;
-  info.currentColor = this.value;
-}
-
 function changeBackgroundColor() {
   info.currentBackgroundColor = this.value;
   backgroundIcon.style.color = this.value;
@@ -190,6 +174,33 @@ function changeBackgroundColor() {
   }
 }
 
+function showGrid() {
+  if (gridButton.classList.contains('selected')) {
+    gridButton.classList.remove('selected');    
+    document.querySelectorAll('.square').forEach(e => e.classList.remove('grid'));
+    return;
+  }
+  
+  gridButton.classList.add('selected');
+  document.querySelectorAll('.square').forEach(e => e.classList.add('grid'));
+}
+
+function clearAll() {
+  for (let i = 0; i < info.currentSize; i++) {
+    for (let j = 0; j < info.currentSize; j++) {
+      const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
+      square.classList.remove('scratched');
+      square.removeAttribute('data-brightness');
+      square.style.backgroundColor = info.currentBackgroundColor;
+    }
+  }
+}
+
+function changeColor() {
+  colorIcon.style.color = this.value;
+  info.currentColor = this.value;
+}
+
 function start() {
   changeSizeInfo();
   createSquares();
@@ -201,9 +212,10 @@ function main() {
   range.addEventListener('input', changeSizeInfo);
   range.addEventListener('change', createSquares);
   actionButtons.forEach((button, index) => button.addEventListener('click', () => addCanvasEventListener(index)));
-  gridButton.addEventListener('click', showGrid);
-  colorButton.addEventListener('change', changeColor);
   backgroundButton.addEventListener('change', changeBackgroundColor);
+  gridButton.addEventListener('click', showGrid);
+  clearButton.addEventListener('click', clearAll);
+  colorButton.addEventListener('change', changeColor);
 }
 
 document.addEventListener('DOMContentLoaded', main);
