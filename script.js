@@ -86,6 +86,7 @@ function addCanvasEventListener(index) {
 
 function brush(target) {
   target.style.backgroundColor = info.currentColor;
+  target.removeAttribute('data-brightness');
   target.classList.add('scratched');
 }
 
@@ -99,6 +100,7 @@ function bucket(i, j, oldColor) {
     return;
 
   square.style.backgroundColor = info.currentColor;
+  square.removeAttribute('data-brightness');
   square.classList.add('scratched');
 
   bucket(i - 1, j, oldColor);
@@ -109,7 +111,7 @@ function bucket(i, j, oldColor) {
 
 function eraser(target) {
   target.style.backgroundColor = info.currentBackgroundColor;
-  target.dataset.brightness = 0;
+  target.removeAttribute('data-brightness');
   target.classList.remove('scratched');
 }
 
