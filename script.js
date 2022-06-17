@@ -144,8 +144,13 @@ function changeBrightness(target, sign) {
   target.style.backgroundColor = `rgb(${newRGBAray[0]}, ${newRGBAray[1]}, ${newRGBAray[2]})`;
 }
 
-function rainbow() {
+function rainbow(target) {
+  const r = Math.floor(Math.random() * 255);
+  const g = Math.floor(Math.random() * 255);
+  const b = Math.floor(Math.random() * 255);
 
+  target.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+  target.classList.add('scratched');
 }
 
 function showGrid() {
