@@ -205,7 +205,8 @@ function saveNewCanvas() {
 
   const element = {
     canvas: canvas.cloneNode(true),
-    size: info.currentSize
+    size: info.currentSize,
+    backgroundColor: info.currentBackgroundColor
   };
 
   info.canvasHistory.record.push(element);
@@ -225,8 +226,12 @@ function undo_redo(target) {
   const nextCanvas = info.canvasHistory.record[nextIndex];
 
   info.currentSize = nextCanvas.size;
-  range.value = info.currentSize;
+  range.value = nextCanvas.size;
   changeSizeInfo();
+
+  info.currentBackgroundColor = nextCanvas.backgroundColor;
+  backgroundIcon.style.color = nextCanvas.backgroundColor;
+  backgroundButton.value = nextCanvas.backgroundColor;
 
   canvas.innerHTML = nextCanvas.canvas.innerHTML;
   info.canvasHistory.currentIndex = nextIndex;
