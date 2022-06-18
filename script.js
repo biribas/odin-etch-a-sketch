@@ -54,7 +54,8 @@ function addCanvasEventListener(index) {
   if (id === 'bucket')
     return canvas.addEventListener('mousedown', e => {
       const coordinate = e.target.dataset.coordinate.split(';');
-      return actionFunction(+coordinate[0], +coordinate[1], e.target.style.backgroundColor), saveNewCanvas();
+      actionFunction(+coordinate[0], +coordinate[1], getComputedStyle(e.target).getPropertyValue('background-color'));
+      return saveNewCanvas();
     });
 
   if (id === 'eyedropper') {
@@ -73,6 +74,7 @@ function brush(target) {
 }
 
 function bucket(i, j, oldColor) {
+  const start = Date.now()
   if (i < 0 || i >= info.currentSize || j < 0 || j >= info.currentSize) return;
 
   const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
@@ -88,6 +90,7 @@ function bucket(i, j, oldColor) {
   bucket(i + 1, j, oldColor);
   bucket(i, j - 1, oldColor);
   bucket(i, j + 1, oldColor);
+  console.log(Date.now() - start)
 }
 
 function eraser(target) {
