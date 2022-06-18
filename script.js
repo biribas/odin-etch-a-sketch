@@ -32,7 +32,7 @@ const info = {
   currentSize: 0,
   canvasHistory: {
     record: [],
-    index: -1,
+    currentIndex: -1,
     max: 30
   }
 }
@@ -211,30 +211,49 @@ function createSquares() {
 }
 
 function saveNewCanvas() {
-  const currentIndex = info.canvasHistory.index;
+  const currentIndex = info.canvasHistory.currentIndex;
   const nextIndex = currentIndex + 1;
   info.canvasHistory.record = info.canvasHistory.record.slice(0, nextIndex);
 
-  info.canvasHistory.record.push(canvas.cloneNode(true));
+  const element = {
+    canvas: canvas.cloneNode(true),
+    size: info.currentSize
+  };
+
+  info.canvasHistory.record.push(element);
   
   if (nextIndex === info.canvasHistory.max)
     return info.canvasHistory.record.shift();
 
-  info.canvasHistory.index = nextIndex;
+  info.canvasHistory.currentIndex = nextIndex;
 }
 
 function undo() {
-  const nextIndex = info.canvasHistory.index - 1;
+  const nextIndex = info.canvasHistory.currentIndex - 1;
   if (nextIndex < 0) return;
-  canvas.innerHTML = info.canvasHistory.record[nextIndex].innerHTML;
-  info.canvasHistory.index = nextIndex;
+  
+  const nextCanvas = info.canvasHistory.record[nextIndex];
+
+  info.currentSize = nextCanvas.size;
+  range.value = info.currentSize;
+  changeSizeInfo();
+
+  canvas.innerHTML = nextCanvas.canvas.innerHTML;
+  info.canvasHistory.currentIndex = nextIndex;
 }
 
 function redo() {
-  const nextIndex = info.canvasHistory.index + 1;
+  const nextIndex = info.canvasHistory.currentIndex + 1;
   if (info.canvasHistory.record[nextIndex] === undefined) return;
-  canvas.innerHTML = info.canvasHistory.record[nextIndex].innerHTML;
-  info.canvasHistory.index = nextIndex;
+
+  const nextCanvas = info.canvasHistory.record[nextIndex];
+
+  info.currentSize = nextCanvas.size;
+  range.value = info.currentSize;
+  changeSizeInfo();
+
+  canvas.innerHTML = nextCanvas.canvas.innerHTML;
+  info.canvasHistory.currentIndex = nextIndex;
 }
 
 function start() {
