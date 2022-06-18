@@ -228,8 +228,8 @@ function saveNewCanvas() {
   info.canvasHistory.currentIndex = nextIndex;
 }
 
-function undo_redo(e) {
-  const sign = e.target.id === 'undo' ? -1 : 1
+function undo_redo() {
+  const sign = this.id === 'undo' ? -1 : 1
   const nextIndex = info.canvasHistory.currentIndex + sign;
   
   if (info.canvasHistory.record[nextIndex] === undefined) return;
