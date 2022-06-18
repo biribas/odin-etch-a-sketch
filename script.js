@@ -7,12 +7,12 @@ const menu = document.querySelectorAll('.button');
 const actionButtons = [...menu].slice(0, 7);
 const actionFunctions = actionButtons.map(e => window[e.parentElement.id]);
 
-const backgroundIcon = menu[7];
-const backgroundButton = document.querySelector('#background > input');
-const gridButton = menu[8];
-const clearButton = menu[9];
-const colorIcon = menu[10];
+const colorIcon = menu[7];
 const colorButton = document.querySelector('#color > input');
+const backgroundIcon = menu[8];
+const backgroundButton = document.querySelector('#background > input');
+const gridButton = menu[9];
+const clearButton = menu[10];
 
 const undoButton = document.querySelector('#undo');
 const redoButton = document.querySelector('#redo');
