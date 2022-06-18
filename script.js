@@ -228,24 +228,12 @@ function saveNewCanvas() {
   info.canvasHistory.currentIndex = nextIndex;
 }
 
-function undo() {
-  const nextIndex = info.canvasHistory.currentIndex - 1;
-  if (nextIndex < 0) return;
+function undo_redo(e) {
+  const sign = e.target.id === 'undo' ? -1 : 1
+  const nextIndex = info.canvasHistory.currentIndex + sign;
   
-  const nextCanvas = info.canvasHistory.record[nextIndex];
-
-  info.currentSize = nextCanvas.size;
-  range.value = info.currentSize;
-  changeSizeInfo();
-
-  canvas.innerHTML = nextCanvas.canvas.innerHTML;
-  info.canvasHistory.currentIndex = nextIndex;
-}
-
-function redo() {
-  const nextIndex = info.canvasHistory.currentIndex + 1;
   if (info.canvasHistory.record[nextIndex] === undefined) return;
-
+  
   const nextCanvas = info.canvasHistory.record[nextIndex];
 
   info.currentSize = nextCanvas.size;
@@ -272,8 +260,8 @@ function main() {
   gridButton.addEventListener('click', showGrid);
   clearButton.addEventListener('click', () => (clearAll(), saveNewCanvas()));
   colorButton.addEventListener('change', changeColor);
-  undoButton.addEventListener('click', undo);
-  redoButton.addEventListener('click', redo);
+  undoButton.addEventListener('click', undo_redo);
+  redoButton.addEventListener('click', undo_redo);
 }
 
 document.addEventListener('DOMContentLoaded', main);
