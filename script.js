@@ -170,10 +170,10 @@ function showGrid() {
 }
 
 function clearAll() {
-  canvas.querySelectorAll('.square').forEach(e => {
-    e.classList.remove('scratched');
-    e.removeAttribute('data-brightness');
-    e.style.backgroundColor = info.currentBackgroundColor;
+  canvas.querySelectorAll('.square').forEach(square => {
+    square.classList.remove('scratched');
+    square.removeAttribute('data-brightness');
+    square.style.backgroundColor = info.currentBackgroundColor;
   });
 }
 
