@@ -54,7 +54,8 @@ function addCanvasEventListener(index) {
   if (id === 'bucket')
     return canvas.addEventListener('mousedown', e => {
       const coordinate = e.target.dataset.coordinate.split(';');
-      actionFunction(+coordinate[0], +coordinate[1], getComputedStyle(e.target).getPropertyValue('background-color'));
+      const backgroundColor = getComputedStyle(e.target).getPropertyValue('background-color');
+      actionFunction(+coordinate[0], +coordinate[1], backgroundColor);
       return saveNewCanvas();
     });
 
