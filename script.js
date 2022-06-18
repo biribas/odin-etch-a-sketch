@@ -73,13 +73,12 @@ function brush(target) {
 }
 
 function bucket(i, j, oldColor) {
-  if (i < 0 || i >= info.currentSize || j < 0 || j >= info.currentSize) 
-    return;
+  if (i < 0 || i >= info.currentSize || j < 0 || j >= info.currentSize) return;
 
   const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
+  const squareColor = getComputedStyle(square).getPropertyValue('background-color');
 
-  if (square.style.backgroundColor !== oldColor)
-    return;
+  if (squareColor !== oldColor) return;
 
   square.style.backgroundColor = info.currentColor;
   square.removeAttribute('data-brightness');
