@@ -198,6 +198,15 @@ function createSquares() {
   }
 }
 
+function controlUndoRedoVisibility() {
+  const currentIndex = info.canvasHistory.currentIndex;
+  const isUndoClickable = currentIndex > 0;
+  const isRedoClickable = info.canvasHistory.record[currentIndex + 1] !== undefined;
+
+  isUndoClickable ? undoButton.classList.add('clickable') : undoButton.classList.remove('clickable');
+  isRedoClickable ? redoButton.classList.add('clickable') : redoButton.classList.remove('clickable');
+}
+
 function saveNewCanvas() {
   const currentIndex = info.canvasHistory.currentIndex;
   const nextIndex = currentIndex + 1;
@@ -215,6 +224,8 @@ function saveNewCanvas() {
     return info.canvasHistory.record.shift();
 
   info.canvasHistory.currentIndex = nextIndex;
+
+  controlUndoRedoVisibility();
 }
 
 function undo_redo(target) {
@@ -235,6 +246,8 @@ function undo_redo(target) {
 
   canvas.innerHTML = nextCanvas.canvas.innerHTML;
   info.canvasHistory.currentIndex = nextIndex;
+  
+  controlUndoRedoVisibility();
 }
 
 function start() {

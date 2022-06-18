@@ -112,9 +112,15 @@ input[type="range"] {
 #undo, #redo {
   font-size: 2rem;
   transition: transform 0.1s ease;
+  color: rgb(111, 111, 111);
+  cursor: default;
 }
 
-#undo:hover, #redo:hover {
+#undo.clickable, #redo.clickable {
+  color: white;
+}
+
+#undo.clickable:hover, #redo.clickable:hover {
   transform: scale(1.1);
   cursor: pointer;
 }
