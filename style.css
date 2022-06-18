@@ -90,6 +90,7 @@ h1 {
 input[type="range"] {
   margin: 0.5rem 0;
   background-color: grey;
+  cursor: ew-resize;
 }
 
 #canvas-header {
