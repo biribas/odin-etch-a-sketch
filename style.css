@@ -152,7 +152,7 @@ input[type="range"] {
   background-color: white;
 }
 
-.grid {
+.grid > .row > .square {
   border-top: 1px solid black;
   border-left: 1px solid black;
 }

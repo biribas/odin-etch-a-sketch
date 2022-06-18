@@ -22,6 +22,7 @@ const info = {
   currentColor: colorButton.value,
   currentBackgroundColor: backgroundButton.value,
   currentSize: 0,
+  isSGridelected: false,
   canvasHistory: {
     record: [],
     currentIndex: -1,
@@ -162,14 +163,16 @@ function changeBackgroundColor() {
 }
 
 function showGrid() {
-  if (gridButton.classList.contains('selected')) {
+  if (info.isSGridelected) {
     gridButton.classList.remove('selected');    
-    document.querySelectorAll('.square').forEach(e => e.classList.remove('grid'));
-    return;
+    canvas.classList.remove('grid');
   }
-  
-  gridButton.classList.add('selected');
-  document.querySelectorAll('.square').forEach(e => e.classList.add('grid'));
+  else {
+    gridButton.classList.add('selected');
+    canvas.classList.add('grid');
+  }
+
+  info.isSGridelected = !info.isSGridelected;
 }
 
 function clearAll() {
@@ -195,13 +198,12 @@ function changeSizeInfo() {
 function createSquares() {
   const n = +range.value;
   info.currentSize = n;
-  const gridIsSelected = gridButton.classList.contains('selected');
   
   canvas.innerHTML = '';
   for (let i = 0; i < n; i++) {
     canvas.innerHTML += '<div class="flex row"></div>';
     for (let j = 0; j < n; j++)
-      canvas.lastElementChild.innerHTML += '<div class="square' + (gridIsSelected ? ' grid' : '') + `" data-coordinate="${i};${j}"></div>`;
+      canvas.lastElementChild.innerHTML += `<div class="square" data-coordinate="${i};${j}"></div>`;
   }
 }
 
