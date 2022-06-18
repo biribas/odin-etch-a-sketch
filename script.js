@@ -22,11 +22,18 @@ const clearButton = menu[9];
 const colorIcon = menu[10];
 const colorButton = document.querySelector('#color > input');
 
+const undoButton = document.querySelector('#undo');
+const redoButton = document.querySelector('#redo');
+
 const info = {
   mousedown: false,
   currentColor: '#000000',
   currentBackgroundColor: '#ffffff',
-  currentSize: 0
+  currentSize: 0,
+  canvasHistory: {
+    record: [],
+    index: -1
+  }
 }
 
 const toRGBArray = rgbString => rgbString.match(/\d+/g).map(Number);
@@ -54,15 +61,16 @@ function addCanvasEventListener(index) {
   if (id === 'bucket')
     return canvas.addEventListener('mousedown', e => {
       const coordinate = e.target.dataset.coordinate.split(';');
-      return actionFunction(+coordinate[0], +coordinate[1], e.target.style.backgroundColor);
+      return actionFunction(+coordinate[0], +coordinate[1], e.target.style.backgroundColor), saveNewCanvas();
     });
 
-  if (id === 'eyedropper')
+  if (id === 'eyedropper') {
     return canvas.addEventListener('click', e => actionFunction(e.target));
+  }
 
   canvas.addEventListener('mousedown', e => (info.mousedown = true, actionFunction(e.target)));
   canvas.addEventListener('mouseover', e => info.mousedown ? actionFunction(e.target) : 1);
-  canvas.addEventListener('mouseup', () => info.mousedown = false);
+  canvas.addEventListener('mouseup', () => (info.mousedown = false, saveNewCanvas()));
 }
 
 function brush(target) {
@@ -137,8 +145,8 @@ function rainbow(target) {
 }
 
 function changeBackgroundColor() {
-  info.currentBackgroundColor = this.value;
-  backgroundIcon.style.color = this.value;
+  info.currentBackgroundColor = backgroundButton.value;
+  backgroundIcon.style.color = backgroundButton.value;
 
   for (let i = 0; i < info.currentSize; i++) {
     for (let j = 0; j < info.currentSize; j++) {
@@ -201,20 +209,51 @@ function createSquares() {
   }
 }
 
+function saveNewCanvas() {
+  const currentIndex = info.canvasHistory.index;
+  const nextIndex = currentIndex + 1;
+  info.canvasHistory.record = info.canvasHistory.record.slice(0, nextIndex);
+
+  info.canvasHistory.record.push(canvas.cloneNode(true));
+  
+  if (nextIndex === 30)
+    return info.canvasHistory.record.shift();
+
+  info.canvasHistory.index = nextIndex;
+}
+
+function undo() {
+  const nextIndex = info.canvasHistory.index - 1;
+  if (nextIndex < 0) return;
+  canvas.innerHTML = info.canvasHistory.record[nextIndex].innerHTML;
+  info.canvasHistory.index = nextIndex;
+}
+
+function redo() {
+  const nextIndex = info.canvasHistory.index + 1;
+  if (info.canvasHistory.record[nextIndex] === undefined) return;
+  canvas.innerHTML = info.canvasHistory.record[nextIndex].innerHTML;
+  info.canvasHistory.index = nextIndex;
+}
+
 function start() {
   createSquares();
+  saveNewCanvas();
   addCanvasEventListener(actionButtons.indexOf(document.querySelector('.selected')));
 }
 
 function main() {
   start();
+  document.addEventListener('mouseup', () => info.mousedown = false);
   range.addEventListener('input', changeSizeInfo);
   range.addEventListener('change', createSquares);
   actionButtons.forEach((button, index) => button.addEventListener('click', () => addCanvasEventListener(index)));
-  backgroundButton.addEventListener('change', changeBackgroundColor);
+  backgroundButton.addEventListener('change', () => (changeBackgroundColor(), saveNewCanvas()));
   gridButton.addEventListener('click', showGrid);
-  clearButton.addEventListener('click', clearAll);
+  clearButton.addEventListener('click', () => (clearAll(), saveNewCanvas()));
   colorButton.addEventListener('change', changeColor);
+  undoButton.addEventListener('click', undo);
+  redoButton.addEventListener('click', redo);
 }
 
 document.addEventListener('DOMContentLoaded', main);
