@@ -32,7 +32,8 @@ const info = {
   currentSize: 0,
   canvasHistory: {
     record: [],
-    index: -1
+    index: -1,
+    max: 30
   }
 }
 
@@ -216,7 +217,7 @@ function saveNewCanvas() {
 
   info.canvasHistory.record.push(canvas.cloneNode(true));
   
-  if (nextIndex === 30)
+  if (nextIndex === info.canvasHistory.max)
     return info.canvasHistory.record.shift();
 
   info.canvasHistory.index = nextIndex;
