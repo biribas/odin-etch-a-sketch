@@ -223,8 +223,8 @@ function saveNewCanvas() {
   info.canvasHistory.currentIndex = nextIndex;
 }
 
-function undo_redo() {
-  const sign = this.id === 'undo' ? -1 : 1
+function undo_redo(target) {
+  const sign = target.id === 'undo' ? -1 : 1
   const nextIndex = info.canvasHistory.currentIndex + sign;
   
   if (info.canvasHistory.record[nextIndex] === undefined) return;
@@ -257,8 +257,14 @@ function main() {
   clearButton.addEventListener('click', () => (clearAll(), saveNewCanvas()));
   colorButton.addEventListener('change', changeColor);
 
-  undoButton.addEventListener('click', undo_redo);
-  redoButton.addEventListener('click', undo_redo);
+  undoButton.addEventListener('click', e => undo_redo(e.target));
+  redoButton.addEventListener('click', e => undo_redo(e.target));
+
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'z' && e.key !== 'Z') return;
+    if (e.ctrlKey && e.shiftKey) return undo_redo(redoButton);
+    if (e.ctrlKey) return undo_redo(undoButton);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', main);
