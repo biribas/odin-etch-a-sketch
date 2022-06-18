@@ -25,7 +25,7 @@ const info = {
   canvasHistory: {
     record: [],
     currentIndex: -1,
-    max: 30
+    max: 1000
   }
 }
 
@@ -144,21 +144,18 @@ function changeBackgroundColor() {
   info.currentBackgroundColor = backgroundButton.value;
   backgroundIcon.style.color = backgroundButton.value;
 
-  for (let i = 0; i < info.currentSize; i++) {
-    for (let j = 0; j < info.currentSize; j++) {
-      const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
-      const isScratched = square.classList.contains('scratched');
-      const isShadedOrLightened = square.hasAttribute('data-brightness') && square.dataset.brightness !== '0';
+  canvas.querySelectorAll('.square').forEach(square => {
+    const isScratched = square.classList.contains('scratched');
+    const isShadedOrLightened = square.hasAttribute('data-brightness') && square.dataset.brightness !== '0';
 
-      if (!isScratched && isShadedOrLightened) {
-        const brightnessLevel = +square.dataset.brightness * 15;
-        const rgbArray = hexToRGBArray(info.currentBackgroundColor).map(e => (e + brightnessLevel) < 0 ? 0 : e + brightnessLevel);
-        square.style.backgroundColor = `rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`;
-      }
-      else if (!isScratched)
-        square.style.backgroundColor = info.currentBackgroundColor;
+    if (!isScratched && isShadedOrLightened) {
+      const brightnessLevel = +square.dataset.brightness * 15;
+      const rgbArray = hexToRGBArray(info.currentBackgroundColor).map(e => (e + brightnessLevel) < 0 ? 0 : e + brightnessLevel);
+      square.style.backgroundColor = `rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`;
     }
-  }
+    else if (!isScratched)
+      square.style.backgroundColor = info.currentBackgroundColor;
+  });
 }
 
 function showGrid() {
@@ -173,14 +170,11 @@ function showGrid() {
 }
 
 function clearAll() {
-  for (let i = 0; i < info.currentSize; i++) {
-    for (let j = 0; j < info.currentSize; j++) {
-      const square = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
-      square.classList.remove('scratched');
-      square.removeAttribute('data-brightness');
-      square.style.backgroundColor = info.currentBackgroundColor;
-    }
-  }
+  canvas.querySelectorAll('.square').forEach(e => {
+    e.classList.remove('scratched');
+    e.removeAttribute('data-brightness');
+    e.style.backgroundColor = info.currentBackgroundColor;
+  });
 }
 
 function changeColor() {
