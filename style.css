@@ -133,7 +133,7 @@ input[type="range"] {
 }
 
 #canvas:hover {
-  cursor: url('./cursors/brush.cur'), default;
+  cursor: url('./brush.cur'), default;
 }
 
 .row {
