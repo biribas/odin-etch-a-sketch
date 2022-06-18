@@ -5,15 +5,7 @@ const size = document.getElementById('size');
 const menu = document.querySelectorAll('.button');
 
 const actionButtons = [...menu].slice(0, 7);
-const actionFunctions = [
-  brush,
-  bucket,
-  eraser,
-  eyedropper,
-  shading,
-  lighting,
-  rainbow
-];
+const actionFunctions = actionButtons.map(e => window[e.parentElement.id]);
 
 const backgroundIcon = menu[7];
 const backgroundButton = document.querySelector('#background > input');
@@ -70,7 +62,7 @@ function addCanvasEventListener(index) {
   }
 
   canvas.addEventListener('mousedown', e => (info.mousedown = true, actionFunction(e.target)));
-  canvas.addEventListener('mouseover', e => info.mousedown ? actionFunction(e.target) : 1);
+  canvas.addEventListener('mouseover', e => info.mousedown && actionFunction(e.target));
   canvas.addEventListener('mouseup', () => (info.mousedown = false, saveNewCanvas()));
 }
 
@@ -252,14 +244,16 @@ function start() {
 
 function main() {
   start();
-  document.addEventListener('mouseup', () => info.mousedown = false);
+  document.addEventListener('mouseup', () => (info.mousedown && saveNewCanvas(), info.mousedown = false));
   range.addEventListener('input', changeSizeInfo);
   range.addEventListener('change', () => (createSquares(), saveNewCanvas()));
+
   actionButtons.forEach((button, index) => button.addEventListener('click', () => addCanvasEventListener(index)));
   backgroundButton.addEventListener('change', () => (changeBackgroundColor(), saveNewCanvas()));
   gridButton.addEventListener('click', showGrid);
   clearButton.addEventListener('click', () => (clearAll(), saveNewCanvas()));
   colorButton.addEventListener('change', changeColor);
+
   undoButton.addEventListener('click', undo_redo);
   redoButton.addEventListener('click', undo_redo);
 }
