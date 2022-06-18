@@ -19,8 +19,8 @@ const redoButton = document.querySelector('#redo');
 
 const info = {
   mousedown: false,
-  currentColor: '#000000',
-  currentBackgroundColor: '#ffffff',
+  currentColor: colorButton.value,
+  currentBackgroundColor: backgroundButton.value,
   currentSize: 0,
   canvasHistory: {
     record: [],
