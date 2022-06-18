@@ -247,7 +247,7 @@ function main() {
   start();
   document.addEventListener('mouseup', () => info.mousedown = false);
   range.addEventListener('input', changeSizeInfo);
-  range.addEventListener('change', createSquares);
+  range.addEventListener('change', () => (createSquares(), saveNewCanvas()));
   actionButtons.forEach((button, index) => button.addEventListener('click', () => addCanvasEventListener(index)));
   backgroundButton.addEventListener('change', () => (changeBackgroundColor(), saveNewCanvas()));
   gridButton.addEventListener('click', showGrid);
