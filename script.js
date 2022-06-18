@@ -66,7 +66,7 @@ function addCanvasEventListener(index) {
     });
 
   if (id === 'eyedropper') {
-    return canvas.addEventListener('click', e => actionFunction(e.target));
+    return canvas.addEventListener('mousedown', e => actionFunction(e.target));
   }
 
   canvas.addEventListener('mousedown', e => (info.mousedown = true, actionFunction(e.target)));
