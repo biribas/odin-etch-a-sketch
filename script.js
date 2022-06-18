@@ -22,7 +22,6 @@ const info = {
   currentColor: colorButton.value,
   currentBackgroundColor: backgroundButton.value,
   currentSize: 0,
-  isSGridelected: false,
   canvasHistory: {
     record: [],
     currentIndex: -1,
@@ -163,16 +162,14 @@ function changeBackgroundColor() {
 }
 
 function showGrid() {
-  if (info.isSGridelected) {
+  if (canvas.classList.contains('grid')) {
     gridButton.classList.remove('selected');    
     canvas.classList.remove('grid');
+    return;
   }
-  else {
-    gridButton.classList.add('selected');
-    canvas.classList.add('grid');
-  }
-
-  info.isSGridelected = !info.isSGridelected;
+  
+  gridButton.classList.add('selected');
+  canvas.classList.add('grid');
 }
 
 function clearAll() {
