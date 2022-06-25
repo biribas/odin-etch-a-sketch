@@ -97,8 +97,9 @@ input[type="range"] {
   box-sizing: border-box;
   background-color: black;
   color: snow;
+  justify-content: space-between;
   align-items: center;
-  padding: 0.25rem 0;
+  padding: 0.25rem;
   box-shadow: 
     0.25rem 0 0 #000,
     -0.25rem 0 0 #000;
@@ -106,36 +107,35 @@ input[type="range"] {
 
 #size {
   font-size: 1.5rem;
-  margin-left: 0.5rem;
 }
 
-#undo, #redo {
+#undo, #redo, #download {
   font-size: 2rem;
   transition: transform 0.1s ease;
   color: rgb(111, 111, 111);
   cursor: default;
 }
 
-#undo.clickable, #redo.clickable {
+#unre-div, #download-div {
+  width: 5rem;
+  height: 2rem;
+}
+
+#download-div {
+  text-align: right;
+}
+
+#undo.clickable, #redo.clickable, #download {
   color: white;
 }
 
-#undo.clickable:hover, #redo.clickable:hover {
+#undo.clickable:hover, #redo.clickable:hover, #download:hover {
   transform: scale(1.1);
   cursor: pointer;
 }
 
-#undo:active, #redo:active {
+#undo:active, #redo:active, #download:active {
   transform: scale(1);
-}
-
-#undo {
-  margin-left: auto;
-  margin-right: 0.5rem;
-}
-
-#redo {
-  margin-right: 0.5rem;
 }
 
 #canvas {
