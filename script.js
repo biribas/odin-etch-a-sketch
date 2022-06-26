@@ -16,6 +16,7 @@ const clearButton = menu[10];
 
 const undoButton = document.querySelector('#undo');
 const redoButton = document.querySelector('#redo');
+const downloadButton = document.querySelector('#download');
 
 const info = {
   mousedown: false,
@@ -248,6 +249,29 @@ function undo_redo(target) {
   controlUndoRedoVisibility();
 }
 
+function handleDownload() {
+  const downloadCanvas = document.createElement('canvas');
+  downloadCanvas.width = downloadCanvas.height = info.currentSize;
+
+  const context = downloadCanvas.getContext('2d');
+  for (let i = 0; i < info.currentSize; i++) {
+    for (let j = 0; j < info.currentSize; j++) {
+      const pixel = context.createImageData(1, 1);
+      const div = canvas.querySelector(`[data-coordinate="${i};${j}"]`);
+      const colors = toRGBArray(getComputedStyle(div).getPropertyValue('background-color'));
+      for (let c = 0; c < 3; c++)
+        pixel.data[c] = colors[c];
+      pixel.data[3] = 255;
+      context.putImageData(pixel, i, j);
+    }
+  }
+
+  const link = document.createElement('a');
+  link.download = 'canvas.png';
+  link.href = downloadCanvas.toDataURL();
+  link.click();
+}
+
 function start() {
   createSquares();
   saveNewCanvas();
@@ -268,6 +292,7 @@ function main() {
 
   undoButton.addEventListener('click', e => undo_redo(e.target));
   redoButton.addEventListener('click', e => undo_redo(e.target));
+  downloadButton.addEventListener('click', handleDownload);
 
   document.addEventListener('keydown', e => {
     if (e.key !== 'z' && e.key !== 'Z') return;
